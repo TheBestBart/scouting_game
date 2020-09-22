@@ -2,7 +2,7 @@ import React from 'react'
 import Header from "./Header";
 import Wrapper from '../commons/Wrapper';
 
-const Table = ({ children, headerTexts = [], error = false }) => {
+const Table = ({ children = [], headerTexts = [], error = false }) => {
 
     return (
         <Wrapper>

@@ -42,7 +42,7 @@ const ReportFormService = ({ render, user, success, task = undefined, history })
               'auth-token': `Bearer${getJwt()}`,
               'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ ...formState, taskID: task ? task._id : '', groupID: _id })
+            body: JSON.stringify({ ...formState, taskID: task ? task._id : '', groupID: _id, groupName: login })
         })
         .then(response => response.json())
         .then(data => {
@@ -68,7 +68,7 @@ const ReportFormService = ({ render, user, success, task = undefined, history })
         }
     }, [reportSuccess, reportError])
 
-    return  render({ addReport, handleChange, success: reportSuccess, error: reportError, task, description: formState.groupDescription })
+    return  render({ formAction: addReport, handleChange, success: reportSuccess, error: reportError, task, groupDescription: formState.groupDescription })
 }
  
 const mapStateToProps = state => ({

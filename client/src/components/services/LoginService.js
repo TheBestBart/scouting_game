@@ -1,7 +1,5 @@
 import { useState, useEffect } from 'react'
 import { withRouter } from 'react-router-dom'
-import { connect } from 'react-redux'
-import basicAction from './../../redux/basic/duck/actions';
 import BASIC_URL from '../../utils/BASIC_URL';
 
 const LoginService = props => {
@@ -46,10 +44,5 @@ const LoginService = props => {
     return props.render({ logIn, login, errorState, password, setInputValue });
     
 }
-
-
-const mapDispatchToProps = dispatch => ({
-    setUser: user => dispatch(basicAction.setUser(user))
-})
 
 export default withRouter(LoginService); 

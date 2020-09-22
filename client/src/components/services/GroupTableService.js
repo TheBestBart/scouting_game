@@ -3,16 +3,36 @@ import USER_URL from '../../utils/USER_URL';
 import { getJwt } from '../../helpers.js';
 import Row from '../group/Row';
 import TaskService from './TaskService';
+import { connect } from 'react-redux'
+import { withRouter } from 'react-router-dom'
+ 
 
-const GroupTableService = props => {
-
+const GroupTableService = ({ render, history, match, user }) => {
+    
+    let { type, login } = user;
+    let { groupID } = match.params
+    
     const [tasksWithReports, setTasksWithReports] = useState([]);
     const [error, setError] = useState(false);
-    const headerTexts = ['Zadanie', 'Liczba punktów', 'Maksymalna Liczba punktów', 'Raporty', 'Grupa Zadań']
-    
-    const uploadTasks = () => {
+    const headerTexts = ['Zadanie', 'Liczba punktów', 'Maksymalna Liczba punktów', 'Raporty', 'Grupa Zadań'];
 
-        fetch(USER_URL.GET.uploadTasks, {
+    const createObject = () => {
+
+        if(type === 'EVALUATOR') {
+            return {
+                method:  'POST',
+                mode: 'cors', 
+                cache: 'no-cache',
+                credentials: 'same-origin', 
+                headers : {
+                  'auth-token': `Bearer${getJwt()}`,
+                  'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ groupID: groupID })
+            }
+        } 
+
+        return {
             method:  'GET',
             mode: 'cors', 
             cache: 'no-cache',
@@ -21,7 +41,12 @@ const GroupTableService = props => {
               'auth-token': `Bearer${getJwt()}`,
               'Content-Type': 'application/json'
             }
-        })
+        }
+    }
+
+    const uploadTasks = () => {
+
+        fetch(USER_URL.GET.uploadTasks, createObject())
         .then(response => response.json())
         .then(data => {
             data.success && setTasksWithReports(data.tasks);
@@ -43,7 +68,11 @@ const GroupTableService = props => {
         return <TaskService key={task._id} task={task} render={children => <Row { ...children } />} />
     })
     
-    return props.render({ headerTexts, error, children }); 
+    return render({ headerTexts, error, children }); 
 }
- 
-export default GroupTableService;
+
+const mapStateToProps = state => ({
+    user: state.basicData.user
+})
+
+export default connect(mapStateToProps)(withRouter(GroupTableService));

@@ -29,10 +29,10 @@ const taskSchema = new mongoose.Schema({
                 type: mongoose.Schema.Types.ObjectId,
                 required: true,
             },
-        
-            taskID: {
-                type: mongoose.Schema.Types.ObjectId,
-                required: true
+
+            groupName: {
+                type: String,
+                required: true,
             },
         
             rated: {
@@ -49,7 +49,12 @@ const taskSchema = new mongoose.Schema({
                 type: String,
                 required: false
             },
-        
+
+            ratingDate: {
+                type: Date,
+                required: false,
+            },
+    
             date: {
                 type: Date,
                 required: true,

@@ -13,7 +13,7 @@ const GroupsGetterService = ({ render = undefined, user, history }) => {
     const [groups, setGroups] = useState([]);
     const { type, login } = user;
 
-    const uploadTask = () => {
+    const uploadGroups = () => {
     
         fetch(USER_URL.GET.getGroups, {
             method:  'GET',
@@ -41,7 +41,7 @@ const GroupsGetterService = ({ render = undefined, user, history }) => {
 
     useEffect(() => {
         if(!success && !error) {
-            uploadTask();
+            uploadGroups();
         }
     }, [groups, setGroups, success, error])
 
@@ -54,12 +54,12 @@ const GroupsGetterService = ({ render = undefined, user, history }) => {
         const cells = [
             <Cell components={[`${login}`]}/>,
             <Cell components={[`${name}`]}/>,
-            <Cell components={[<p onClick={redirect} style={{color: 'darkred', fontSize: '12px', cursor: 'pointer'}}>Raporty</p>]}/>
+            <Cell components={[<p onClick={() => redirect(_id)} style={{color: 'darkred', fontSize: '12px', cursor: 'pointer'}}>Raporty</p>]}/>
         ]
-        return <Row elements={{ ...cells }} />
+        return <Row elements={cells} />
     })
     
-    return render({ headerTexts })
+    return render({ headerTexts, children })
 }
 
 const mapStateToProps = state => ({

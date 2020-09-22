@@ -5,6 +5,21 @@
     "plugins": [
       [
         "@babel/plugin-proposal-class-properties"
+      ],
+      [
+        "babel-plugin-drop-hof"
+      ],
+      [
+        "@babel/plugin-transform-arrow-functions", { "spec": true }
+      ],
+      [
+        "transform-es2015-arrow-functions", { "spec": true }
+      ],
+      [
+        "@babel/plugin-transform-spread"
+      ],
+      [
+        "@babel/plugin-proposal-object-rest-spread"
       ]
   ]
 }

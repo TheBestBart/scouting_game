@@ -2,7 +2,9 @@ import Group from '../../models/Group';
 
 export default  async (req, res) => {
     try {
+        console.log('tutaj jeste')
         let groups = await Group.find({}, 'login _id name');
+        console.log('tutaj jestem')
 
         if(groups) {
           return res.status(201).send({   

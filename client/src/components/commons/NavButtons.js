@@ -19,8 +19,9 @@ const NavButtons = ({ user, history, logOut }) => {
     
     if(type === 'EVALUATOR') {
         buttons = [
+            <Button style={{marginRight: '10px'}} text={"Nowe Zadanie"} action={() => history.push(`/auth/${type}/${login}/add-task`)} className={'btn-gray fade-in'}/>,
             <Button style={{marginRight: '10px'}} text={"Zadania"} action={() => history.push(`/auth/${type}/${login}/tasks`)} className={'btn-gray fade-in'}/>,
-            <Button style={{marginRight: '10px'}} text={"Drużyny"} action={() => history.push(`/auth/${type}/${login}/groups`)} className={'btn-gray fade-in'}/>,
+            <Button style={{marginRight: '10px'}} text={"Drużyny"} action={() => history.push(`/auth/${type}/${login}`)} className={'btn-gray fade-in'}/>,
             <Button style={{marginRight: '10px'}} text={'Raporty'} action={() => history.push(`/auth/${type}/${login}/reports`)} className={'btn-gray fade-in'}/>,
             <Button style={{marginRight: '10px'}} text={'Wyloguj'} action={() => logOut(history)} className={'btn-gray'}/>,
         ]

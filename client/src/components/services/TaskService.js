@@ -17,10 +17,10 @@ const TaskService = ({ task, user, history, render }) => {
     })
 
     let report = reports.map(report => {
-        return <Report report={report} key={report._id}/>
+        return <Report report={report} taskID={_id} key={report._id}/>
     });
 
-    report.push(<p onClick={redirect} style={{color: 'darkred', fontSize: '12px', cursor: 'pointer'}}>Dodaj Raport</p>)
+    type === 'GROUP' && report.push(<p onClick={redirect} style={{color: 'darkred', fontSize: '12px', cursor: 'pointer', margin: 0}}>Dodaj Raport</p>)
 
     let elements = [number, ratingReport, maxRating, report, group];
 
