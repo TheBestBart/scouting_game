@@ -8,7 +8,7 @@ export default  async (req, res) => {
         let { taskID } = req.body;
 
         let reportData = { ...req.body };
-        console.log('report', reportData, 'req.body', req.body)
+  
         delete reportData.taskID 
 
         if(error) return res.status(400).send({

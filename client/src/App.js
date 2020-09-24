@@ -2,12 +2,13 @@ import React from 'react';
 import './App.css';
 import { Switch, Route, Redirect } from 'react-router-dom'
 import ProtectedRouter from './components/auth/ProtectedRouter'
-import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom'
 import Login from './components/login/Login';
 import LoginService from './components/services/LoginService';
 import Navbar from './components/commons/Navbar';
 import NavButtons from './components/commons/NavButtons';
+import MainPage from './components/main-page/MainPage';
+import MainPageService from './components/services/MainPageService';
 
 class App extends React.Component
 {  
@@ -29,7 +30,7 @@ class App extends React.Component
             </Route>
             <Route path='/auth' component={ProtectedRouter} />
             <Route exact path='/'>
-              <h1>Home Page</h1>
+              <MainPageService render={props => <MainPage { ...props } />} /> 
             </Route>
             <Route path='/' render={() => <Redirect to={'/'} />} />
           </Switch>

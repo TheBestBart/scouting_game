@@ -1,9 +1,9 @@
 import React from 'react'
 
-const Wrapper = props => {
+const Wrapper = ({ className = 'wrpr', children }) => {
     return (
-        <div className='wrpr'>
-            {props.children}
+        <div className={className}>
+            {children}
         </div>
     );
 }

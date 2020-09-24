@@ -14,7 +14,9 @@ const ReportUploaderService = ({ match, render, user, history, isEvaluated }) =>
     const INITIAL_UPLOAD_STATE = {
         rating: null,
         evaluatorName: login,
-        evaluatorDescription: '', 
+        evaluatorDescription: '',
+        reportID: reportID,
+        taskID: taskID
     }
 
     const [state, setState] = useState({ report: false, task: false });
@@ -32,6 +34,7 @@ const ReportUploaderService = ({ match, render, user, history, isEvaluated }) =>
     }
 
     const uploadReport = () => {
+
         fetch(USER_URL.POST.uploadReport, {
             method:  'POST',
             mode: 'cors', 
@@ -59,7 +62,12 @@ const ReportUploaderService = ({ match, render, user, history, isEvaluated }) =>
         })
     }
 
-    const rateReport = () => {
+    const rateReport = e => {
+        e.preventDefault();
+        alert('Rate')
+
+        console.log('state', state)
+
         fetch(USER_URL.PUT.updateReport, {
             method:  'PUT',
             mode: 'cors', 
@@ -69,7 +77,7 @@ const ReportUploaderService = ({ match, render, user, history, isEvaluated }) =>
               'auth-token': `Bearer${getJwt()}`,
               'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ })
+            body: JSON.stringify({ ...ratingState })
         })
         .then(response => response.json())
         .then(data => {
@@ -88,18 +96,22 @@ const ReportUploaderService = ({ match, render, user, history, isEvaluated }) =>
     }
 
     useEffect(() => {
+        if(typeof user === 'object' && !ratingState.evaluatorName) {
+            setRatingState({ ...ratingState, evaluatorName: login })
+        }
+     
         if(!success || !error) {
             uploadReport();
         }
-    }, [success, error, state])
+    }, [success, error, state, user, setRatingState, ratingState, login, uploadReport])
 
     const redirect = () => history.push(`/auth/${type}/${login}`);
 
     const { task, report } = state;
 
-    const component = <ExistedReportData handleChange={handleChange} ratingState={ratingState} report={report} maxRating={task.maxRating} kingOfRating={task.kingOfRating} isEvaluated={isEvaluated} />
+    const component = <ExistedReportData handleChange={handleChange} ratingState={ratingState} report={report} maxRating={task && task.maxRating} kingOfRating={task && task.kingOfRating} isEvaluated={isEvaluated} />
 
-    return render({ titleText: task ?  `Raport do zadania ${task.number}` : "Raport", component, groupDescription: report.groupDescription, existed: true, task, formAction: isEvaluated ? rateReport : redirect, buttonText: "Wróć do Strony Głównej" });
+    return render({ userType: user.type, titleText: task ?  `Raport do zadania ${task.number}` : "Raport", component, groupDescription: report && report.groupDescription, existed: true, task, formAction: isEvaluated ? rateReport : redirect, buttonText: isEvaluated ? "Zatwierdź ocenę" : 'Wróć' });
 }
 
 const mapStateToProps = state => ({

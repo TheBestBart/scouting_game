@@ -1,8 +1,8 @@
 import React from 'react'
 
-const Title = ({ title }) => {
+const Title = ({ title , style = {} }) => {
     return (  
-        <p className='title'>
+        <p style={{ ...style }} className='title'>
             {title}
         </p>
     );

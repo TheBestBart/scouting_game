@@ -1,9 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-const Button = ({ action = undefined, text, style = {}, type = undefined, className = 'btn' }) => {
+const Button = ({ name, action = undefined, text, style = {}, type = undefined, className = 'btn' }) => {
     return (
-        <button type={type && type} style={{...style}} className={className} onClick={action}>
+        <button name={name} type={type && type} style={{...style}} className={className} onClick={action}>
             {text}
         </button>
     )

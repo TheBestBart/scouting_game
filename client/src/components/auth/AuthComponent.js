@@ -3,7 +3,7 @@ import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { getJwt } from '../../helpers.js/index';
-import { getUserProfile } from '../../redux/basic/duck/operations';
+import { getUserProfile, logOut } from '../../redux/basic/duck/operations';
 
 class AuthComponent extends Component {
     
@@ -17,8 +17,7 @@ class AuthComponent extends Component {
         const jwt = getJwt();
         
         if(!jwt) {
-            this.props.logOut();
-            this.props.history.push('/');
+            logOut(this.props.history)
         } else {
             this.props.getUser(jwt, this.props.history)
         }
@@ -29,8 +28,7 @@ class AuthComponent extends Component {
             const jwt = getJwt();
 
             if(!jwt) {
-                this.props.logOut();
-                this.props.history.push(`/login`);
+                logOut(this.props.history)
             } 
         }
     }
@@ -47,7 +45,7 @@ class AuthComponent extends Component {
 
 const mapDispatchToProps = dispatch => ({
     getUser: (token, history) => dispatch(getUserProfile(token, history)),
-    // logOut: () => dispatch(basicActions.logOut()),
+    logOut: history => dispatch(logOut(history))
 })
 
 export default connect(null, mapDispatchToProps)(withRouter(AuthComponent));

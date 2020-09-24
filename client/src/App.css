@@ -33,7 +33,7 @@ html, body, #app, #app {
   z-index: 2;
   left: 0;
   top: 0;
-  width: 85%;
+  width: 95%;
   left: 0;
   top: 0;
   z-index: 50;
@@ -51,6 +51,22 @@ html, body, #app, #app {
   align-items: center
 }
 
+.res-wrpr {
+  display: flex;
+  width: auto;
+  height: 100%;
+}
+
+.popup-child {
+  display: flex!important; 
+  justify-content: center!important;
+  align-content: center!important;
+  margin: auto!important;
+  width: 60%!important;
+  height: 230px!important;
+  flex-direction: column
+}
+
 .title {
   color: #262626;
   font-weight: 600;
@@ -58,6 +74,7 @@ html, body, #app, #app {
   height: auto;
   font-size: 20px;
   border-bottom: 1px solid #EAEAEA;
+  padding: 10px;
 }
 
 .p-text {
@@ -87,7 +104,7 @@ html, body, #app, #app {
   /* justify-content: center; */
   align-items: center;
   width: 50%;
-  margin-bottom: 50px;
+  margin-bottom: 70px;
 }
 
 .inpt {
@@ -115,21 +132,105 @@ html, body, #app, #app {
   font-weight: 600;
   margin-bottom: 5px;
   width: 85%;
-  text-align: left
+  text-align: left;
+  margin: 5px
 }
 
+.hamburger-menu {
+  fill: darkgray;
+  transition: fill 0.3s linear;
+  cursor: pointer;
+  display: none;
+}
+
+.popup-box {
+  position: fixed;
+  display: flex;
+  height: 100%;
+  width: 100%;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  justify-content: center;
+  align-content: center;
+  background-color: rgba(0, 0, 0, 0.4)
+}
+
+.hamburger-menu:hover {
+  fill: lightgray
+}
+
+.unvisible {
+  display: none!important;
+}
+
+.evaluated-report {
+  color: #262626;
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: column;
+  align-items: center;
+}
+
+.add-rating {
+  display: flex;
+  min-width: 60%;
+  justify-content: space-around;
+  align-items: center
+}
+
+.select-box {
+  width: 90%;
+  height: 43px;
+  border-radius: 2px!important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding:0 10px!important;
+  color: #848484;
+  font-size: 14px;
+  border: 1px solid #EBEBEB;
+  background-color: #EBEBEB;
+  transition: background-color 0.2s linear;
+  margin-bottom: 20px;
+}
+
+.select {
+  width: 100%;
+  height: 100%;
+  border-radius: 2px!important;
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  border: none;
+  background-color: inherit;
+  transition: background-color 0.2s linear;
+}
+
+.select:focus {
+  outline: none;
+}
+
+.select-box:focus{
+  background-color: white;
+}
+
+
 .btn {
-  background-color:#E52727;
+  background-color: #E52727;
   border: none;
   border-radius: 2px;
   font-weight: 600;
   padding: 6px 11px 6px 11px;
-  color:white;
+  color: white;
   border-radius: 2px;
   cursor: pointer;
-  min-width: 150px;
+  min-width: 100px;
   transition: background-color 0.3s linear;
-  margin-bottom: 20px;
+  margin-bottom: 80px;
+  margin-top: 25px
 }
 
 .btn:hover {
@@ -141,8 +242,8 @@ html, body, #app, #app {
 }
 
 .btn-gray {
-  background-color: lightgray;
-  border: 1px solid lightgray;
+  background-color: lightskyblue;
+  border: 1px solid lightskyblue;
   border-radius: 2px;
   font-weight: 600;
   color:white;
@@ -159,7 +260,7 @@ html, body, #app, #app {
 
 .btn-gray:hover {
   background-color: white;
-  color: lightgray;
+  color: lightskyblue;
 }
 
 .btn-gray:focus {
@@ -216,8 +317,9 @@ html, body, #app, #app {
   flex: 1
 }
 
+
 .table-container {
-  width: 85%;
+  width: 95%;
   border: 0 1px solid #262626;
   display: flex;
   flex-direction: column;
@@ -229,6 +331,26 @@ html, body, #app, #app {
   display: flex;
   flex-direction: row;
   height: auto;
+}
+
+.login-box {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.nav-container {
+  width: 95%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.nav-buttons {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  width: 60%;
 }
 
 @keyframes fadeIn {
@@ -367,4 +489,42 @@ html, body, #app, #app {
   -webkit-animation-delay: 0.5s;
   animation: slideToHide 0.5s forwards;
   animation-delay: 0.5s;
+}
+
+@media screen and (max-width: 700px) {
+  .hamburger-menu {
+    display: block;
+  }
+
+  .hidden {
+    display: none!important;
+  }
+
+  .res-wrpr {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .btn-gray {
+    background-color: white;
+    border: 1px solid lightgray;
+    height: 34px!important;
+    align-items: center;
+    margin-right: 0!important;
+    margin-top: 5px;
+    color: lightgrey
+  }
+
+  .nav-buttons {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    flex-direction: column
+  }
+
+  .nav {
+    height: auto!important;
+    padding: 10px;
+  }
 }

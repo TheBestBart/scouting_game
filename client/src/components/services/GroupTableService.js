@@ -5,6 +5,8 @@ import Row from '../group/Row';
 import TaskService from './TaskService';
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
+import Filter from '../commons/Filter';
+import BASIC_URL from '../../utils/BASIC_URL';
  
 
 const GroupTableService = ({ render, history, match, user }) => {
@@ -15,7 +17,7 @@ const GroupTableService = ({ render, history, match, user }) => {
     const [tasksWithReports, setTasksWithReports] = useState([]);
     const [error, setError] = useState(false);
     const headerTexts = ['Zadanie', 'Liczba punktów', 'Maksymalna Liczba punktów', 'Raporty', 'Grupa Zadań'];
-
+   
     const createObject = () => {
 
         if(type === 'EVALUATOR') {
@@ -31,19 +33,22 @@ const GroupTableService = ({ render, history, match, user }) => {
                 body: JSON.stringify({ groupID: groupID })
             }
         } 
-
-        return {
-            method:  'GET',
-            mode: 'cors', 
-            cache: 'no-cache',
-            credentials: 'same-origin', 
-            headers : {
-              'auth-token': `Bearer${getJwt()}`,
-              'Content-Type': 'application/json'
-            }
+        
+        if(type === 'GROUP') {
+            return {
+                method:  'GET',
+                mode: 'cors', 
+                cache: 'no-cache',
+                credentials: 'same-origin', 
+                headers : {
+                  'auth-token': `Bearer${getJwt()}`,
+                  'Content-Type': 'application/json'
+                }
+            } 
         }
     }
 
+    
     const uploadTasks = () => {
 
         fetch(USER_URL.GET.uploadTasks, createObject())
@@ -61,7 +66,9 @@ const GroupTableService = ({ render, history, match, user }) => {
         if(tasksWithReports.length === 0 && !error) {
             uploadTasks();
         }
-    })
+
+       
+    }, [user])
 
     
     let children = tasksWithReports.map(task => {

@@ -1,6 +1,5 @@
 import Report from '../../models/Report';
 
-
 export default  async (req, res) => {
     try {
         let { user } = req;

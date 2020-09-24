@@ -1,6 +1,6 @@
 import React from 'react'
 
-const Textarea = ({ name, value, handleChange, style = { width: '90%', height: 'auto'} , placeholder, disabled = false, className = 'inpt'}) => {
+const Textarea = ({ name, value, handleChange, style = { width: '90%', height: 'auto' }, required = false,  placeholder, disabled = false, className = 'inpt'}) => {
     return (  
         <textarea
             value={value}
@@ -11,6 +11,7 @@ const Textarea = ({ name, value, handleChange, style = { width: '90%', height: '
             style={{ ...style }}
             placeholder={placeholder}
             disabled={disabled}
+            required={required}
         />
     );
 }

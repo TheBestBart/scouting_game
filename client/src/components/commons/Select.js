@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 const propTypes = {
     handleChange: PropTypes.func,
     value: PropTypes.string,
-    options: PropTypes.array(),
+    options: PropTypes.array,
     name: PropTypes.string,
     title: PropTypes.string,
     width: PropTypes.string,
@@ -17,8 +17,9 @@ const propTypes = {
 function Select({ style, width = '100%', height = '100px', required = false, disabled = false , name, options, handleChange = undefined, value, title = undefined }) {
  
     return (
-        <div style={{ height: height, width: width}}>
-            { title && <p className='inpt-title'>{title}</p>}
+        <>
+        { title && <p  style={{width: "90%"}} className='inpt-title'>{title}</p>}
+        <div  style={{ backgroundColor: value && 'white', ...style}} className='select-box'>
             <select 
                 onChange={handleChange}
                 value={value}
@@ -27,10 +28,6 @@ function Select({ style, width = '100%', height = '100px', required = false, dis
                 disabled={disabled}
                 required={required}
                 className='select'
-                style={{
-                    backgroundColor: value && 'white', 
-                    ...style
-                }} 
             >
                 <option value=''>-</option>
                 {
@@ -41,6 +38,7 @@ function Select({ style, width = '100%', height = '100px', required = false, dis
                 }
             </select>
         </div>
+        </>
     )
 }
 

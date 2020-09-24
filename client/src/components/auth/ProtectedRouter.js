@@ -14,6 +14,10 @@ import GroupsGetterService from '../services/GroupsGetterService';
 import ReportUploaderService from '../services/ReportUploaderService';
 import { getHour } from '../../helpers.js';
 import AllReportsGetterService from '../services/AllReportsGetterService';
+import TaskFrom from '../commons/TaskFrom';
+import MainPage from '../main-page/MainPage';
+import MainPageService from '../services/MainPageService';
+import FilterGroupsService from '../services/FilterGroupsService';
 
 class ProtectedRouter extends Component {
 
@@ -36,10 +40,14 @@ class ProtectedRouter extends Component {
                         }
                     </Route>
 
+                    <Route exact path='/auth/:type/:login/results'>
+                        <MainPageService render={props => <MainPage { ...props } />} /> 
+                    </Route>
+                    
                     <Route exact path='/auth/:type/:login/add-task'>
                            {
                                type === "EVALUATOR" 
-                               ? <p><h1>Tu bedzie formularz tworzący zadanie</h1></p>
+                               ? <TaskFrom />
                                : <Route render={() => <Redirect to={`/auth/${type}/${login}`}/>} />
                            } 
                     </Route>
@@ -53,7 +61,7 @@ class ProtectedRouter extends Component {
                     </Route>
 
                     <Route exact path='/auth/:type/:login/reports'>
-                        <AllReportsGetterService render={props => <Table { ...props }/>}/>
+                        <AllReportsGetterService render={props => <FilterGroupsService { ...props } render={ serviceProps => <Table { ...serviceProps }/> } /> }/>
                     </Route>
                         {/* nie ma komponentu */}
                     <Route exact path='/auth/:type/:login/rate/:taskID/:reportID'>
@@ -64,9 +72,11 @@ class ProtectedRouter extends Component {
                         <ReportUploaderService toRate render={props => <ReportForm { ...props }/> } />
                     </Route>
 
+
                     <Route exact path='/auth/:type/:login/add-report/:taskID'>
                         <TaskGetterService render={props => <ReportFormServie { ...props } render={reportProps => <ReportForm { ...reportProps } /> } />} />  
                     </Route>
+
 
                 </Switch>
             </AuthComponent>           

@@ -1,23 +1,36 @@
-import Report from './../../models/Report';
+import Task from './../../models/Task';
 import ReportValidator from '../../validation/ReportValidator';
 
 export default  async (req, res) => {
     try {
-        const { reportID, rating } = req.body;
+        const { reportID, rating, evaluatorDescription, evaluatorName, taskID } = req.body;
+
+        console.log(req.body)
+
         const { error } = ReportValidator.validateReportToRate({ ...req.body })
+
+        console.log(error)
 
         if(error) return res.status(400).send({
           success: false,
           message: error.details[0].message,
         });
-    
-        let updatedReport = Report.findByIdAndUpdate({ _id: reportID }, { rating: rating, rated: true }, { new: true, useFindAndModify: false })
+
+        let updating = {
+          "reports.$.rating": rating,
+          "reports.$.evaluatorDescription" : evaluatorDescription,
+          "reports.$.evaluatorName" : evaluatorName,
+          "reports.$.rated" : true,
+          "reports.$.ratingDate" : new Date()
+        }
+
+        let updatedTask = await Task.findOneAndUpdate({ _id: taskID, "reports._id" : reportID }, { $set: updating }, {new: true, useFindAndModify: false })
        
-        if(updatedReport) {
+        if(updatedTask) {
+          console.log('tutaj jestem', updatedTask);
           return res.status(201).send({   
             success: true,
             message: 'Report has been updated',
-            updatedReport: updatedReport,
           })
         } else {
             return res.status(500).send({   

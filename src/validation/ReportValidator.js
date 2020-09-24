@@ -6,6 +6,7 @@ export default class ReportValidator {
             groupDescription: Joi.string().required(),
             groupID: Joi.string().required(),
             groupName: Joi.string().required(),
+            taskID: Joi.string().required()
         });
     
         return schema.validate(data);
@@ -15,6 +16,9 @@ export default class ReportValidator {
         const schema = Joi.object({
             rating: Joi.number().required(),
             reportID: Joi.string().required(),
+            taskID: Joi.string().required(),
+            evaluatorDescription: Joi.string().empty(''),
+            evaluatorName: Joi.string().required()
         });
     
         return schema.validate(data);

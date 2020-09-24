@@ -2,8 +2,7 @@ import types from "./types";
 
 const INITIAL_STATE = {
     user: false,
-    value: 0,
-    value1: 2
+    resultsFlag: true,
 };
 
 const basicReducer = (state = INITIAL_STATE, action) => {
@@ -13,6 +12,18 @@ const basicReducer = (state = INITIAL_STATE, action) => {
             return {
                 ...state,
                 user: action.user
+            }
+
+        case types.TOGGLE_RESULTS_FLAG:
+            return {
+                ...state,
+                resultsFlag: action.isShown
+            }
+        
+        case types.SET_RESULTS_FLAG: 
+            return {
+                ...state,
+                resultsFlag: !state.resultsFlag
             }
 
         default:

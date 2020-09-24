@@ -32,6 +32,7 @@ const ReportFormService = ({ render, user, success, task = undefined, history })
 
     const addReport = e => {
         e.preventDefault();
+        alert('add');
 
         fetch(USER_URL.POST.addReport, {
             method:  'POST',
@@ -68,7 +69,7 @@ const ReportFormService = ({ render, user, success, task = undefined, history })
         }
     }, [reportSuccess, reportError])
 
-    return  render({ formAction: addReport, handleChange, success: reportSuccess, error: reportError, task, groupDescription: formState.groupDescription })
+    return  render({ userType: user.type, formAction: addReport, handleChange, success: reportSuccess, error: reportError, task, groupDescription: formState.groupDescription })
 }
  
 const mapStateToProps = state => ({

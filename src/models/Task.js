@@ -1,4 +1,5 @@
 import dotenv from 'dotenv';
+
 dotenv.config();
 const mongoose = require('mongoose');
 
@@ -11,6 +12,38 @@ const taskSchema = new mongoose.Schema({
     title: {
         type: String,
         required: true,
+    },
+
+    number: {
+        type: String,
+        required: true,
+        min: 1,
+    },
+
+    maxRating: {
+        type: Number,
+        required: false
+    },
+
+    group: {
+        type: String,
+        required: false
+    },
+
+    kindOfRating: {
+        type: String,
+        required: false
+    },
+    ratingReport: {
+        type: Number,
+        required: true,
+        default: 0
+    },
+
+    extended: {
+        type: Boolean,
+        required: true,
+        default: false
     },
 
     reports: [
@@ -52,7 +85,8 @@ const taskSchema = new mongoose.Schema({
 
             ratingDate: {
                 type: Date,
-                required: false,
+                required: true,
+                default: null
             },
     
             date: {
@@ -62,27 +96,6 @@ const taskSchema = new mongoose.Schema({
             }
         }
     ],
-    
-    number: {
-        type: String,
-        required: true,
-        min: 1,
-    },
-
-    maxRating: {
-        type: Number,
-        required: false
-    },
-
-    group: {
-        type: String,
-        required: false
-    },
-
-    kindOfRating: {
-        type: String,
-        required: false
-    }
 })
 
 export default mongoose.model('Task', taskSchema);

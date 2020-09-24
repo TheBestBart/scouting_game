@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import { getJwt, getHour } from '../../helpers.js';
 import USER_URL from '../../utils/USER_URL';
 import Row from '../group/Row.js';
@@ -13,7 +13,7 @@ const AllReportsGetterService = ({ render = undefined, user, history }) => {
     const [reports, setReports] = useState([]);
     const { type, login } = user;
 
-    const uploadReports = () => {
+    const uploadReports = useCallback(() => {
     
         fetch(USER_URL.GET.getAllReports, {
             method:  'GET',
@@ -38,7 +38,7 @@ const AllReportsGetterService = ({ render = undefined, user, history }) => {
             console.log('ERROR: ', error);
             setError(true);
         })
-    }
+    })
 
     useEffect(() => {
         if(!success && !error) {
@@ -46,32 +46,38 @@ const AllReportsGetterService = ({ render = undefined, user, history }) => {
         }
     }, [reports, setReports, success, error])
 
+    // const getFilteredReport = useCallback(() => reports => {
+    //     setReports(reports);
+    // },[])
+
     const redirectToReport = (reportID, taskID) => history.push(`/auth/${type}/${login}/existed/${taskID}/${reportID}`);
     const redirectToRate = (reportID, taskID) => history.push(`/auth/${type}/${login}/rate/${taskID}/${reportID}`);
     
 
     const headerTexts = ['Zadanie', 'Drużyna', 'Data dodania', 'Ocena', 'Oceniający', 'Data oceny', ''];
 
-    const children = reports.map(({ report, taskNumber, taskID }, index) => {
-        let { groupName, date, evaluatorName, rating, rated, ratingDate, _id } = report
-        const action = !rated && type === 'EVALUATOR' ? () => redirectToRate(_id, taskID) : () => redirectToReport(_id, taskID);
-        const actionText = !rated && type === 'EVALUATOR' ? 'Oceń' : 'Zobacz';
-
-        const cells = [
-            <Cell key={index} components={[`${taskNumber}`]}/>,
-            <Cell key={index} components={[`${groupName ? groupName : '-'}`]}/>,
-            <Cell key={index} components={[`${getHour(date)}`]}/>,
-            <Cell key={index} components={[`${rating ? rating : '-'}`]}/>,
-            <Cell key={index} components={[`${evaluatorName ? evaluatorName : '-'}`]}/>,
-            <Cell key={index} components={[`${ratingDate ? getHour(ratingDate) : '-'}`]}/>,
-            <Cell key={index} components={[<p onClick={action} style={{color: 'darkred', fontSize: '12px', cursor: 'pointer'}}>{actionText}</p>]}/>
-        ]
-        return <Row elements={cells} />
-    })
-
-    console.log(children)
+    const setChildren = (reports = []) => {
+        let children = reports.map(({ report, taskNumber, taskID }, index) => {
+            let { groupName, date, evaluatorName, rating, rated, ratingDate, _id } = report
+            const action = !rated && type === 'EVALUATOR' ? () => redirectToRate(_id, taskID) : () => redirectToReport(_id, taskID);
+            const actionText = !rated && type === 'EVALUATOR' ? 'Oceń' : 'Zobacz';
     
-    return render({ headerTexts, children: [ ...children ] } )
+            const cells = [
+                <Cell key={index + 1} components={[`${taskNumber}`]}/>,
+                <Cell key={index + 2} components={[`${groupName ? groupName : '-'}`]}/>,
+                <Cell key={index + 3} components={[`${getHour(date)}`]}/>,
+                <Cell key={index + 4} components={[`${rating ? rating : '-'}`]}/>,
+                <Cell key={index + 5} components={[`${evaluatorName ? evaluatorName : '-'}`]}/>,
+                <Cell key={index + 6} components={[`${ratingDate ? getHour(ratingDate) : '-'}`]}/>,
+                <Cell key={index + 7} components={[<p onClick={action} style={{color: 'darkred', fontSize: '12px', cursor: 'pointer'}}>{actionText}</p>]}/>
+            ]
+            return <Row key={index} elements={cells} />
+        })
+
+        return children;
+    }
+
+    return render({ userType: user.type, headerTexts, children: [ ...setChildren(reports) ], reports, setChildren } )
 }
 
 const mapStateToProps = state => ({

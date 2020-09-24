@@ -1,18 +1,21 @@
 import Task from "../../models/Task";
+import { getGroupReports } from "../basic/ReportFilter";
 
 export default async (req, res) => {
     try {
         let tasks = await Task.find({ }, '_id number reports');
+        let { userType, user } = req;
 
         if(tasks && tasks.length) {
 
             let reportsArray = []
             tasks.map(({ reports, number, _id }) => {
-                return reports.map(report => reportsArray.push({ report: report, taskNumber: number, taskID: _id }))
+                userType === 'GROUP' 
+                ? getGroupReports(reports, user, number, _id).filter(element => reportsArray.push(element)) 
+                : reports.filter(report => reportsArray.push({ report: report, taskNumber: number, taskID: _id }));
             });
 
-            console.log('MAPPEDaRRAY', reportsArray)
-
+            console.log('reportsArray', reportsArray)
             return res.status(201).send({   
                 success: true,
                 message: 'reports found',

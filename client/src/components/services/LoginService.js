@@ -29,7 +29,7 @@ const LoginService = props => {
                     localStorage.setItem('auth-token', data.token);
                 }
 
-                return props.history.push(`/auth/${data.user.type}/${data.user.login}`);
+                return props.history.push(`/auth/${data.user.type}/${data.user.login}/${data.user.type === 'EVALUATOR' ? 'groups' : ''}`);
 
             } else {
                 setError({ error: true, message: data.message });
