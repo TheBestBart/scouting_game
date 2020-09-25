@@ -1,17 +1,25 @@
-import Group from '../../models/Group';
 import Task from '../../models/Task';
-import { getGroupsPoints } from '../../helpers.js/getGroupsPoints';
+import { getGroupPoints } from '../../helpers.js/index.js';
 
 export default  async (req, res) => {
     try {
-        let groups = await Group.find({}, 'login _id name');
+        let { user, userType } = req;
+        console.log(userType, user)
+
+        if(userType === 'EVALUATOR') {
+            return res.status(403).send({
+                success: false,
+                message: 'Forbidden!'
+            })
+        }
+
         let tasks = await Task.find({});
 
-        if(tasks && groups) {
+        if(tasks && userType === "GROUP" && user) {
             return res.status(201).send({   
                 success: true,
                 message: 'groups success',
-                groups: getGroupsPoints(tasks, groups),
+                groupResult: getGroupPoints(tasks, user.toString())
             })
         }
  

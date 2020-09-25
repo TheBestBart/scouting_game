@@ -11,20 +11,20 @@ import rateRaport from '../controllers/evaluator/rateRaport';
 import verifyUser from '../middlewares/verifyUser';
 import setResultsFlag from '../controllers/evaluator/setResultsFlag';
 import addTask from '../controllers/evaluator/addTask';
-
+import getGroupResult from '../controllers/group/getGroupResult';
 
 setResultsFlag
 router.get('/auth/user', verifyToken, getUser);
+router.get('/auth/group-result', verifyToken, verifyUser, getGroupResult);
 router.get('/auth/tasks', verifyToken, verifyUser,  getTasksWithReports);
 router.get('/auth/all-reports', verifyToken, verifyUser, getAllReports);
 router.get('/auth/evaluator/groups', verifyToken, getGroups);
 router.post('/auth/task', verifyToken, getTask);
-router.post('/auth/add-report', verifyToken, verifyToken, addReport);
+router.post('/auth/add-report', verifyToken, verifyUser, addReport);
 router.post('/auth/report', verifyToken, getReport);
 router.post('/auth/tasks', verifyToken, getTasksWithReports);
 router.put('/auth/update-report', verifyToken, verifyUser,  rateRaport);
 router.post('/auth/evaluator/set-results-flag', verifyToken, verifyUser, setResultsFlag);
 router.post('/auth/evaluator/add-task', verifyToken, verifyUser, addTask);
-
 
 export default  router;

@@ -52,7 +52,7 @@ class ProtectedRouter extends Component {
                            } 
                     </Route>
 
-                    <Route exact path='/auth/:type/:login/groups/:groupID/reports' >
+                    <Route exact path='/auth/:type/:login/groups/:groupLogin/:groupID/reports' >
                         <GroupTableService render={props => <Table { ...props } />} />
                     </Route>
 
@@ -72,7 +72,9 @@ class ProtectedRouter extends Component {
                         <ReportUploaderService toRate render={props => <ReportForm { ...props }/> } />
                     </Route>
 
-
+                    <Route path='/auth/:type/:login/add-report-as-evaluator/:taskID'>
+                        <ReportUploaderService addAsEvaluator toRate render={props => <ReportForm addAsEvaluator { ...props }/> } />
+                    </Route>
                     <Route exact path='/auth/:type/:login/add-report/:taskID'>
                         <TaskGetterService render={props => <ReportFormServie { ...props } render={reportProps => <ReportForm { ...reportProps } /> } />} />  
                     </Route>

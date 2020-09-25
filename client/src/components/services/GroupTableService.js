@@ -50,7 +50,8 @@ const GroupTableService = ({ render, history, match, user }) => {
 
     
     const uploadTasks = () => {
-
+        
+        console.log('tutaj jestem ', createObject());
         fetch(USER_URL.GET.uploadTasks, createObject())
         .then(response => response.json())
         .then(data => {
@@ -66,7 +67,6 @@ const GroupTableService = ({ render, history, match, user }) => {
         if(tasksWithReports.length === 0 && !error) {
             uploadTasks();
         }
-
        
     }, [user])
 
@@ -75,7 +75,7 @@ const GroupTableService = ({ render, history, match, user }) => {
         return <TaskService key={task._id} task={task} render={children => <Row { ...children } />} />
     })
     
-    return render({ headerTexts, error, children }); 
+    return render({ headerTexts, error, children, groupTitle: type === 'GROUP' || match.params.groupLogin ?  }); 
 }
 
 const mapStateToProps = state => ({

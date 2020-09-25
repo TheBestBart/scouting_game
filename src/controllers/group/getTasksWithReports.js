@@ -7,14 +7,16 @@ export default  async (req, res) => {
         let tasks = await Task.find({});
         let idToFound = groupID ? groupID : user;
 
-        if(tasks) {
+        console.log(req.body);
+        console.log('idToFound', idToFound)
+        if(tasks && idToFound) {
             let filteredTasks = tasks.map(task => {
                 let ratingReport;
                 
                 task['reports'] = task.reports.filter((report, index) => {
                     ratingReport = index === 0 ? report.rating : report.rating > ratingReport ? report.rating : ratingReport;
 
-                    if(report.groupID.toString() === idToFound.toString()) {
+                    if(report.groupID == idToFound) {
                         ratingReport = index === 0 ? report.rating : report.rating > ratingReport ? report.rating : ratingReport;
                         return report._id;
                     }

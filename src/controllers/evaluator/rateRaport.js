@@ -3,18 +3,26 @@ import ReportValidator from '../../validation/ReportValidator';
 
 export default  async (req, res) => {
     try {
-        const { reportID, rating, evaluatorDescription, evaluatorName, taskID } = req.body;
 
-        console.log(req.body)
+        const { user, userType } = req;
 
+        if(userType === 'GROUP') {
+          res.status(403).send({
+            success: false,
+            message: 'Foribidden!'
+          })
+        }
+
+    
+        const { reportID, rating, evaluatorDescription, evaluatorName, taskID, editOption } = req.body;
         const { error } = ReportValidator.validateReportToRate({ ...req.body })
-
-        console.log(error)
 
         if(error) return res.status(400).send({
           success: false,
           message: error.details[0].message,
         });
+
+        console.log('EDITING OPTION', editOption)
 
         let updating = {
           "reports.$.rating": rating,
@@ -24,7 +32,10 @@ export default  async (req, res) => {
           "reports.$.ratingDate" : new Date()
         }
 
-        let updatedTask = await Task.findOneAndUpdate({ _id: taskID, "reports._id" : reportID }, { $set: updating }, {new: true, useFindAndModify: false })
+        let foundOption = editOption ? { "reports._id" : reportID } : { _id: taskID, "reports._id" : reportID }
+        let editObject = editOption ? { "reports.$.rating": rating, } : updating;
+
+        let updatedTask = await Task.findOneAndUpdate({ foundOption }, { $set: editObject }, {new: true, useFindAndModify: false })
        
         if(updatedTask) {
           console.log('tutaj jestem', updatedTask);

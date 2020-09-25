@@ -1,5 +1,5 @@
 import Task from "../../models/Task";
-import { getGroupReports } from "../basic/ReportFilter";
+import { getGroupReports } from "../../helpers.js";
 
 export default async (req, res) => {
     try {

@@ -38,8 +38,6 @@ class Filter extends Component {
                     />
                 </div>
                 
-
-                <Button style={{margin: 0}} text={'Zatwierdź'} handleChange={this.props.confirmfilter}/>
             </RowWrapper>
             </>
         )

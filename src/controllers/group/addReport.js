@@ -3,13 +3,17 @@ import ReportValidator from '../../validation/ReportValidator';
 
 export default  async (req, res) => {
     try {
-        const { error } = ReportValidator.validateReport({ ...req.body })
+      const { userType } = req;
 
-        let { taskID } = req.body;
+        console.log('REQ BODY', req.body)
+        const { error } =  userType === 'GROUP' &&  ReportValidator.validateReport({ ...req.body })
+
+        let { taskID, addedAsEvaluator } = req.body;
 
         let reportData = { ...req.body };
   
-        delete reportData.taskID 
+        delete reportData.taskID;
+        delete reportData.addedAsEvaluator
 
         if(error) return res.status(400).send({
           success: false,

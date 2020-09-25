@@ -45,7 +45,7 @@ const GroupsGetterService = ({ render = undefined, user, history }) => {
         }
     }, [groups, setGroups, success, error])
 
-    const redirect = groupID => history.push(`/auth/${type}/${login}/groups/${groupID}/reports`)
+    const redirect = (groupID, groupLogin) => history.push(`/auth/${type}/${login}/groups/${groupLogin}/${groupID}/reports`)
     
 
     const headerTexts = ['login', 'Nazwa Drużyny', 'Raporty'];
@@ -54,7 +54,7 @@ const GroupsGetterService = ({ render = undefined, user, history }) => {
         const cells = [
             <Cell components={[`${login}`]}/>,
             <Cell components={[`${name}`]}/>,
-            <Cell components={[<p onClick={() => redirect(_id)} style={{color: 'darkred', fontSize: '12px', cursor: 'pointer'}}>Raporty</p>]}/>
+            <Cell components={[<p onClick={() => redirect(_id, login)} style={{color: 'darkred', fontSize: '12px', cursor: 'pointer'}}>Raporty</p>]}/>
         ]
         return <Row elements={cells} />
     })

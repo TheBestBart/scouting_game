@@ -8,7 +8,7 @@ import getTaskNumbers from '../controllers/basic/getTaskNumbers';
 
 
 router.post('/login', login);
-router.post('/results', verifyResultsFlag, getResult)
+router.get('/results', verifyResultsFlag, getResult)
 router.get('/task-categories', getTaskCategories)
 router.get('/groups', getGroups);
 router.get('/task-numbers', getTaskNumbers);

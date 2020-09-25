@@ -27,7 +27,6 @@ const AllReportsGetterService = ({ render = undefined, user, history }) => {
         })
         .then(response => response.json())
         .then(({ success, reports }) => {
-            console.log(reports);
             if(success) {
                 setSuccess(true);
                 setReports(reports);
@@ -45,10 +44,6 @@ const AllReportsGetterService = ({ render = undefined, user, history }) => {
             uploadReports();
         }
     }, [reports, setReports, success, error])
-
-    // const getFilteredReport = useCallback(() => reports => {
-    //     setReports(reports);
-    // },[])
 
     const redirectToReport = (reportID, taskID) => history.push(`/auth/${type}/${login}/existed/${taskID}/${reportID}`);
     const redirectToRate = (reportID, taskID) => history.push(`/auth/${type}/${login}/rate/${taskID}/${reportID}`);

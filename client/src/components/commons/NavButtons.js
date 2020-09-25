@@ -30,9 +30,7 @@ const NavButtons = ({ user, history, logOut, resultsFlag }) => {
                 <Button style={{marginRight: '10px'}} text={'Wyloguj'} action={() => logOut(history)} className={'btn-gray'}/>
             </Wrapper>
         ]
-    }
-    
-    if(type === 'EVALUATOR') {
+    } else if(type === 'EVALUATOR') {
         buttons = [
             <div className='hamburger-menu' style={{ width: '100%', textAlign: 'left' }}>
                 <HamburgerMenu action={() => toggleShown(!shown)} width={'30px'} height={'28px'} className={'hamburger-menu'}/>
@@ -46,7 +44,17 @@ const NavButtons = ({ user, history, logOut, resultsFlag }) => {
                 <Button style={{marginRight: '10px'}} text={'Wyloguj'} action={() => logOut(history)} className={'fade-in btn-gray'}/>
             </Wrapper>
         ]
-    } 
+    } else {
+        buttons = [
+            <div className='hamburger-menu' style={{ width: '100%', textAlign: 'left' }}>
+                <HamburgerMenu action={() => toggleShown(!shown)} width={'30px'} height={'28px'} className={'hamburger-menu'}/>
+            </div>,
+            <Wrapper className={shown ? 'res-wrpr' : 'res-wrpr hidden'}>
+                <Button text={'Strona Główna'} style={{ marginRight: '10px' }} action={() => history.push('/') } className='fade-in btn-gray'/>
+                <Button text={'Logowanie'} style={{ marginRight: '10px' }} action={() => history.push('/login') } className='fade-in btn-gray'/>
+            </Wrapper>
+        ]
+    }
 
     return ( 
         <>

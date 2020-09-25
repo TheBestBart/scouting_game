@@ -2,7 +2,6 @@ import Task from './../../models/Task';
 
 export default  async (req, res) => {
     try {
-
         const tasks = await Task.find({});
 
         if(!tasks) {

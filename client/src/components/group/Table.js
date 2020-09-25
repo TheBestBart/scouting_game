@@ -1,12 +1,15 @@
 import React from 'react'
 import Header from "./Header";
 import Wrapper from '../commons/Wrapper';
+import Title from '../commons/Title';
+import { withRouter } from 'react-router-dom'
 
-const Table = ({ children = [], headerTexts = [], error = false, filterComponent = undefined }) => {
+const Table = ({ match, children = [], headerTexts = [], error = false, filterComponent = undefined, groupTitle }) => {
     
     return (
         <>
         { filterComponent && filterComponent }
+        {groupTitle && <Title title={`raporty drużyny: ${match.params.groupLogin}`}/>}
         <Wrapper>
             <div className='table-container'>
                 <Header texts={headerTexts}/>
@@ -17,4 +20,4 @@ const Table = ({ children = [], headerTexts = [], error = false, filterComponent
     )
 }
  
-export default Table;
+export default withRouter(Table);

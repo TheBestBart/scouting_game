@@ -6,10 +6,9 @@ import Group from './../../models/Group'
 export default  async (req, res) => {
     try {
         const { error } = LoginValidator.validateLogin(req.body);
-        let { password, login } = req.body
+        let { login } = req.body
         let evaluator;
 
-        console.log(req.body);
         if(error) return res.status(400).send({
             success: false,
             messsage: error.details[0].message}

@@ -4,16 +4,19 @@ import BASIC_URL from '../../utils/BASIC_URL';
 import { connect } from 'react-redux'
 import basicAction from './../../redux/basic/duck/actions'
 
-let defaultCharData = {
-    labels: [],
-    datasets:[
-        {
-            label:'Wynik z gry',
-            data:[],
-            backgroundColor:['lightgray', 'lightorange', 'purple','lightyellow','lightblue','lightskygreen','lightskyblue','lightgreen','lightpink','lemon', 'brown', 'blue', '#eaeaea', '#12d111']
-        }
-    ]
-};
+// let defaultCharData = {
+//     labels: [],
+//     datasets:[
+//         {
+//             label:'Wynik z gry',
+//             data:[],
+//             backgroundColor:['lightgray', 'lightorange', 'purple','lightyellow','lightblue','lightskygreen','lightskyblue','lightgreen','lightpink','lemon', 'brown', 'blue', '#eaeaea', '#12d111']
+//         }
+//     ]
+// };
+
+
+const backgroundColor = ['lightgray', 'lightorange', 'purple','lightyellow','lightblue','lightskygreen','lightskyblue','lightgreen','lightpink','lemon', 'brown', 'blue', '#eaeaea', '#12d111']
 
 class MainPageService extends Component {
     
@@ -26,11 +29,12 @@ class MainPageService extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            chartData: defaultCharData,
-            extended: false
-        }
+            points: [],
+            labels: [],
+            totalPoints: [],
+            extended: false,
 
-        this.timer = this.timer.bind(this);
+        }
     }
 
     componentDidMount() {
@@ -42,25 +46,20 @@ class MainPageService extends Component {
         clearInterval(this.intervalID);
     }
 
-    timer = () => {
-        console.log('wyswietlam sie co 5 sekund');
-    }
-
     uploadResults = () => {
-        fetch(BASIC_URL.POST.getResults, {
-            method:  'POST',
+        fetch(BASIC_URL.GET.getResults, {
+            method:  'GET',
             mode: 'cors', 
             cache: 'no-cache',
             credentials: 'same-origin', 
             headers : {
               'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ extended: this.state.extended })
+            }
         })
         .then(response => response.json())
         .then(data => {
             if(data.success) {
-                this.props.setResultsFlag(data.success)
+                this.setDataToChart(data.groups);
             } else {
                 return this.props.setResultsFlag(data.success)
             }  
@@ -72,38 +71,51 @@ class MainPageService extends Component {
         })   
     }
 
-    setChartData = groups => {
+    createDataSets = (label = '', data = [], backgroundColor = []) => {
+        return [{
+            label: label,
+            data: [...data],
+            backgroundColor: [...backgroundColor] 
+        }]
+    }
+
+    createDataChart = (labels, datasets) => {
+        return {
+            labels,
+            datasets
+        }
+    }
+
+    setDataToChart = groups => {
 
         let labels = [];
         let points = [];
+        let totalPoints = [];
+
         groups.map(group => {
             labels.push(group.groupName);
             points.push(group.points);
+            totalPoints.push(group.extendedPoints)
         })
-        
+
         this.setState({
-            chartData: {
-                ...this.state.chartData,
-                labels: [...labels],
-                datasets: [
-                    {
-                        label: this.state.extended ? 'Ogólny Wynik' : 'Wynik z Gry',
-                        data: points,
-                        backgroundColor: this.state.chartData.datasets[0].backgroundColor
-                    }
-                ]
-            }
+            labels,
+            points,
+            totalPoints
         })
     }
 
-    setExtended = e => {
+    setExtended = value => {
         this.setState({
-            buttonActive: e.target.name.toString()
+            extended: value
         })
     }
 
     render() {
-        return this.props.render({ data: this.state.chartData, setExtended: this.setExtended, resultsFlag: this.props.resultsFlag })
+        let { extended, points, totalPoints, labels } = this.state; 
+        let label = extended ? 'Ogólny Wynik' : 'Wynik z gry';
+        let datasets = this.createDataSets(label, extended ? totalPoints : points, backgroundColor);
+        return this.props.render({ data: this.createDataChart(labels, datasets), setExtended: this.setExtended, resultsFlag: this.props.resultsFlag })
     }
 }
 

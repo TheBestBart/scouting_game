@@ -1,4 +1,4 @@
-import Task from './../../models/Task';
+import Task from '../../models/Task';
 
 export default  async (req, res) => {
     try {
@@ -16,7 +16,6 @@ export default  async (req, res) => {
                 message: 'not found',
             })
         }
-
         
     } catch(error) {
         console.log('ADD TASK CONTROLLER ERROR', error)

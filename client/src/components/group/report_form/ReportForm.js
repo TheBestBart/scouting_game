@@ -3,7 +3,7 @@ import Button from "../../commons/Button";
 import Title from '../../commons/Title';
 import Informer from '../../commons/Informer';
 
-const ReportForm = ({ userType, titleText = 'Dodawanie Raportu', buttonText = 'Dodaj Raport', formAction, handleChange = undefined, success, error, task = {}, groupDescription, existed = false, component }) => {
+const ReportForm = ({ addAsEvaluator, userType, titleText = 'Dodawanie Raportu', buttonText = 'Dodaj Raport', formAction, handleChange = undefined, success, error, task = {}, groupDescription, existed = false, component }) => {
     
     const { description, number, maxRating } = task;
     // alert('USER TYPE: ' + userType)
@@ -32,8 +32,10 @@ const ReportForm = ({ userType, titleText = 'Dodawanie Raportu', buttonText = 'D
 
             <Informer success={success} error={error} textSuccess={'Dodano raport'}  textError={'Coś poszło nie tak...'}/>
             
+            {
+            !addAsEvaluator &&
+            <> 
             <Title style={{marginTop: 0}} title={"Treść Raportu"}/>
-            
 
             <textarea
                 value={groupDescription ? groupDescription : ''}
@@ -48,6 +50,9 @@ const ReportForm = ({ userType, titleText = 'Dodawanie Raportu', buttonText = 'D
                 placeholder='Tekst Raportu...'
                 disabled={existed ? true : false}
             />
+            </>
+            
+            }
 
             <Button style={{ marginBottom: '20px'}} text={buttonText} type={'submit'}/>
         </form>
